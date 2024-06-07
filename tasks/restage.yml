@@ -1,5 +1,5 @@
 platform: linux
 inputs:
-  - pipeline-tasks
+  - name: pipeline-tasks
 run:
   path: pipeline-tasks/scripts/restage.sh
