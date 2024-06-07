@@ -12,10 +12,10 @@ resources:
   type: git
   source:
     uri: ((pipeline-tasks-git-url))
-    branch: ((pipeline-tasks-git-branch))
+    branch: main
 ```
 
-Make pipeline-tasks-git-url and pipeline-tasks-git-branch available as credentials.
+Make pipeline-tasks-git-url available as a credential.
 
 ## Task Usage
 
