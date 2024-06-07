@@ -1,5 +1,5 @@
 platform: linux
 inputs:
-- pipeline-tasks
+  - pipeline-tasks
 run:
   path: pipeline-tasks/scripts/cancel-deployment.sh
