@@ -17,6 +17,6 @@ echo "Installed ${dst_dir}/ytt v0.49.0"
 # hydrate our pipelines with ytt overlays
 # https://carvel.dev/ytt/docs/v0.49.x/lang-ref-ytt-overlay
 
-ytt -f $PIPELINE_YML -f pipeline-tasks/resource-type-templates > src/set-pipeline.yml
+ytt -f $PIPELINE_YML -f pipeline-tasks/overlays > src/set-pipeline.yml
 
 # now we can set_pipeline with that final file
