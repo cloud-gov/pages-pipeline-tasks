@@ -1,5 +1,6 @@
 platform: linux
 inputs:
   - name: pipeline-tasks
+  - name: src
 run:
   path: pipeline-tasks/scripts/init.sh
