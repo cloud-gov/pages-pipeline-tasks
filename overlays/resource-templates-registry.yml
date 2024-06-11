@@ -1,0 +1,22 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@ def resources():
+node: pages-node-v20
+general-task: general-task
+#@ end
+
+#@overlay/match by=overlay.all
+---
+resources:
+#@ for resource in resources():
+#@overlay/match by="name", missing_ok=True
+#@overlay/replace
+- name: #@ resource
+  type: registry-image
+  source:
+    aws_access_key_id: ((ecr-aws-key))
+    aws_secret_access_key: ((ecr-aws-secret))
+    repository: #@ resources()[resource]
+    aws_region: us-gov-west-1
+    tag: latest
+#@ end

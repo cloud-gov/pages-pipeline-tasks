@@ -1,56 +1,26 @@
 #@ load("@ytt:overlay", "overlay")
 
+#@ def resource_types():
+git: git-resource
+pull-request: github-pr-resource
+slack-notification: slack-notification-resource
+time: time-resource
+registry-image: registry-image-resource
+#@ end
+
 #@overlay/match by=overlay.all
 ---
 
 resource_types:
+#@ for type in resource_types():
 #@overlay/match by="name", missing_ok=True
 #@overlay/replace
-- name: git
+- name: #@ type
   type: registry-image
   source:
     aws_access_key_id: ((ecr_aws_key))
     aws_secret_access_key: ((ecr_aws_secret))
-    repository: git-resource
+    repository: #@ resource_types()[type]
     aws_region: us-gov-west-1
     tag: latest
-#@overlay/match by="name", missing_ok=True
-#@overlay/replace
-- name: pull-request
-  type: registry-image
-  source:
-    aws_access_key_id: ((ecr_aws_key))
-    aws_secret_access_key: ((ecr_aws_secret))
-    repository: github-pr-resource
-    aws_region: us-gov-west-1
-    tag: latest
-#@overlay/match by="name", missing_ok=True
-#@overlay/replace
-- name: slack-notification
-  type: registry-image
-  source:
-    aws_access_key_id: ((ecr_aws_key))
-    aws_secret_access_key: ((ecr_aws_secret))
-    repository: slack-notification-resource
-    aws_region: us-gov-west-1
-    tag: latest
-#@overlay/match by="name", missing_ok=True
-#@overlay/replace
-- name: time
-  type: registry-image
-  source:
-    aws_access_key_id: ((ecr_aws_key))
-    aws_secret_access_key: ((ecr_aws_secret))
-    repository: time-resource
-    aws_region: us-gov-west-1
-    tag: latest
-#@overlay/match by="name", missing_ok=True
-#@overlay/replace
-- name: registry-image
-  type: registry-image
-  source:
-    aws_access_key_id: ((ecr_aws_key))
-    aws_secret_access_key: ((ecr_aws_secret))
-    repository: registry-image-resource
-    aws_region: us-gov-west-1
-    tag: latest
+#@ end

@@ -1,0 +1,11 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.all
+---
+resources:
+#@overlay/match by="name", missing_ok=True
+#@overlay/replace
+- name: slack
+  type: slack-notification
+  source:
+    url: ((slack-webhook-url))

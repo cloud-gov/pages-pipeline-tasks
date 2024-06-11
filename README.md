@@ -38,7 +38,7 @@ params:
 
 ### init
 
-Adds information for common resources and resource types to a partially filled-in pipeline.yml prior to setting. The resulting pipeline file will be at `src/set-pipeline.yml`
+Adds information for common resources and resource types to a partially filled-in pipeline.yml prior to setting. The resulting pipeline file will be at `compiled/set-pipeline.yml`
 - Required params: `PIPELINE_YML`
 - Required image: `general-task`
 
