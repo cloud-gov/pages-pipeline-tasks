@@ -9,3 +9,10 @@ resources:
   type: slack-notification
   source:
     url: ((slack-webhook-url))
+#@overlay/match by="name", missing_ok=True
+#@overlay/replace
+- name: pipeline-tasks
+  type: git
+  source:
+    uri: ((pipeline-tasks-git-url))
+    branch: main
