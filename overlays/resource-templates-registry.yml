@@ -1,8 +1,14 @@
 #@ load("@ytt:overlay", "overlay")
 
 #@ def resources():
+dind: pages-dind-v25
+nginx: pages-nginx-v1
 node: pages-node-v20
+postgres: pages-postgres-v15
+python: pages-python-v3.11
+redis: pages-redis-v7.2
 general-task: general-task
+oci-build-task: oci-build-task
 #@ end
 
 #@overlay/match by=overlay.all
