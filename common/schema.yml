@@ -1,0 +1,9 @@
+#@data/values-schema
+---
+env_cf:
+  CF_API: https://api.fr.cloud.gov
+  CF_USERNAME: ((((deploy-env))-cf-username))
+  CF_PASSWORD: ((((deploy-env))-cf-password))
+  CF_ORG: gsa-18f-federalist
+  CF_SPACE: ((deploy-env))
+  CF_STACK: cflinuxfs4
