@@ -1,6 +1,17 @@
+#@ load("@ytt:template", "template")
+
+#@ def build_task_overrides():
+#@yaml/map-key-override
+CF_USERNAME: ((build-tasks-((deploy-env))-cf-username))
+#@yaml/map-key-override
+CF_PASSWORD: ((build-tasks-((deploy-env))-cf-password))
+#@yaml/map-key-override
+CF_SPACE: build-tasks-((deploy-env))
+#@ end
+
 #@data/values
 ---
-env_cf:
+env_cf: &env_cf
   CF_API: https://api.fr.cloud.gov
   CF_USERNAME: ((((deploy-env))-cf-username))
   CF_PASSWORD: ((((deploy-env))-cf-password))
@@ -8,19 +19,25 @@ env_cf:
   CF_SPACE: ((deploy-env))
   CF_STACK: cflinuxfs4
 
+env_cf_build_tasks:
+  <<: *env_cf
+  _: #@ template.replace(build_task_overrides())
+
 release_steps:
-  - get: cf-image
+  - get: general-task
+  - get: pipeline-tasks
   - task: get-changelog-version
-    image: cf-image
+    image: general-task
     config:
       platform: linux
       inputs:
         - name: src
+        - name: pipeline-tasks
       outputs:
         - name: src
       run:
         dir: src
-        path: ci/tasks/get-changelog-version.sh
+        path: ../pipeline-tasks/tasks/get-changelog-version.sh
   - put: pages-release
     params:
       name: src/.git/ref

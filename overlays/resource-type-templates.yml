@@ -6,21 +6,21 @@ pull-request: github-pr-resource
 slack-notification: slack-notification-resource
 time: time-resource
 registry-image: registry-image-resource
+github-release: github-release-resource
 #@ end
 
 #@overlay/match by=overlay.all
 ---
-
 resource_types:
-#@ for type in resource_types():
-#@overlay/match by="name", missing_ok=True
-#@overlay/replace
-- name: #@ type
-  type: registry-image
-  source:
-    aws_access_key_id: ((ecr_aws_key))
-    aws_secret_access_key: ((ecr_aws_secret))
-    repository: #@ resource_types()[type]
-    aws_region: us-gov-west-1
-    tag: latest
+  #@ for type in resource_types():
+  #@overlay/match by="name", missing_ok=True
+  #@overlay/replace
+  - name: #@ type
+    type: registry-image
+    source:
+      aws_access_key_id: ((ecr_aws_key))
+      aws_secret_access_key: ((ecr_aws_secret))
+      repository: #@ resource_types()[type]
+      aws_region: us-gov-west-1
+      tag: latest
 #@ end
