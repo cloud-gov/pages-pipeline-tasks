@@ -37,7 +37,7 @@ release_steps:
         - name: src
       run:
         dir: src
-        path: ../pipeline-tasks/tasks/get-changelog-version.sh
+        path: ../pipeline-tasks/scripts/get-changelog-version.sh
   - put: pages-release
     params:
       name: src/.git/ref
