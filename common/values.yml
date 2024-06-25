@@ -1,27 +1,49 @@
 #@ load("@ytt:template", "template")
 
-#@ def build_task_overrides():
-#@yaml/map-key-override
-CF_USERNAME: ((build-tasks-((deploy-env))-cf-username))
-#@yaml/map-key-override
-CF_PASSWORD: ((build-tasks-((deploy-env))-cf-password))
-#@yaml/map-key-override
-CF_SPACE: build-tasks-((deploy-env))
+#@ def usernames():
+env_cf: ((((deploy-env))-cf-username))
+env_cf_build_tasks: ((build-tasks-((deploy-env))-cf-username))
+env_cf_redirects: ((redirects-cf-username))
+#@ end
+
+#@ def passwords():
+env_cf: ((((deploy-env))-cf-password))
+env_cf_build_tasks: ((build-tasks-((deploy-env))-cf-password))
+env_cf_redirects: ((redirects-cf-password))
+#@ end
+
+#@ def spaces():
+env_cf: ((deploy-env))
+env_cf_build_tasks: build-tasks-((deploy-env))
+env_cf_redirects: redirects
 #@ end
 
 #@data/values
 ---
-env_cf: &env_cf
+
+base: &base
   CF_API: https://api.fr.cloud.gov
-  CF_USERNAME: ((((deploy-env))-cf-username))
-  CF_PASSWORD: ((((deploy-env))-cf-password))
   CF_ORG: gsa-18f-federalist
-  CF_SPACE: ((deploy-env))
   CF_STACK: cflinuxfs4
 
+#! this was close to being for-loopable but it's hard to make work for root level variables
+env_cf:
+  <<: *base
+  CF_SPACE: #@ spaces()["env_cf"]
+  CF_USERNAME: #@ usernames()["env_cf"]
+  CF_PASSWORD: #@ passwords()["env_cf"]
+
 env_cf_build_tasks:
-  <<: *env_cf
-  _: #@ template.replace(build_task_overrides())
+  <<: *base
+  CF_SPACE: #@ spaces()["env_cf_build_tasks"]
+  CF_USERNAME: #@ usernames()["env_cf_build_tasks"]
+  CF_PASSWORD: #@ passwords()["env_cf_build_tasks"]
+
+env_cf_redirects:
+  <<: *base
+  CF_SPACE: #@ spaces()["env_cf_redirects"]
+  CF_USERNAME: #@ usernames()["env_cf_redirects"]
+  CF_PASSWORD: #@ passwords()["env_cf_redirects"]
 
 release_steps:
   - get: general-task
