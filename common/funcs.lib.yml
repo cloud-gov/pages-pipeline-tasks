@@ -26,3 +26,12 @@ params:
   username: ((slack-username))
   icon_url: ((slack-icon-url))
 #@ end
+
+#@ def pr_hook(state, name):
+put: src
+params:
+  path: src
+  status: #@ state
+  base_context: concourse
+  context: #@ name
+#@ end
