@@ -1,0 +1,5 @@
+platform: linux
+inputs:
+  - name: pipeline-tasks
+run:
+  path: pipeline-tasks/scripts/get-app-env.sh
