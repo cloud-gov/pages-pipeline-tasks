@@ -83,6 +83,22 @@ params:
     CF_APP_NAME: app
 ```
 
+### boot
+
+An alternative to `init` when using a single multi-env pipeline file.
+
+Adds information for common resources and resource types to a partially filled-in pipeline.yml prior to setting. The resulting pipeline file will be at `compiled/set-pipeline.yml`. The `ENV_OVERRIDE` value is passed as a data value (`data.values.env`) and is used to control boolean operators within the `pipeline.yml` file. When flying the pipeline manually it is supplied via `--data-value env=$ENV_OVERRIDE`. In the actual `pipeline.yml` file, it can be set to `((deploy-env))`
+- Required params: `ENV_OVERRIDE`
+- Required image: `general-task`
+
+```yml
+task: init
+image: general-task
+file: pipeline-tasks/tasks/boot.yml
+params:
+    ENV_OVERRIDE: ((deploy-env))
+```
+
 ## Common Values
 
 The following are common values that can be used to set environment varable for pipeline tasks to use. They can be added to tasks via the task's `params` key.
@@ -100,34 +116,38 @@ params:
     ...
 ```
 
-### Available Variable Value Groups
+### Available Data Values
 
-- `data.values.base` includes:
+These variables are made available as [Data Values](https://carvel.dev/ytt/docs/v0.49.x/how-to-use-data-values/). They can be accessed in templates by including `#@ load("@ytt:data", "data")` and then referencing the variable via `data.values.VARIABLE_NAME`
+
+- `env` is set to null by default. Pipelines which use the `boot` task will override this with the environment name.
+
+- `base` includes:
 
   - `CF_API: https://api.fr.cloud.gov`
   - `CF_ORG: gsa-18f-federalist`
   - `CF_STACK: cflinuxfs4`
 
-- `data.values.env_cf` includes:
+- `env_cf` includes:
 
-  - `<<: *base`: (Every value from data.values.base)
+  - `<<: *base`: (Every value from base)
   - `CF_SPACE`: The app space
   - `CF_USERNAME`: The cf space username
   - `CF_PASSWORD`: The cf space password
 
-- `data.values.env_cf_build_tasks` includes:
+- `env_cf_build_tasks` includes:
 
-  - `<<: *base` (Every value from data.values.base)
+  - `<<: *base` (Every value from base)
     - `CF_SPACE`: The redirect space
     - `CF_USERNAME`: The cf space username
     - `CF_PASSWORD`: The cf space password
 
-- `data.values.env_cf_redirects` includes:
-  `<<: *base` (Every value from data.values.base)
+- `env_cf_redirects` includes:
+  `<<: *base` (Every value from base)
   - `CF_SPACE`: The build task space
   - `CF_USERNAME`: The cf space username
   - `CF_PASSWORD`: The cf space password
 
-## Init/ytt/templating
+## ytt templating
 
-The [init task](#init) uses [`ytt`](https://carvel.dev/ytt/) to "compile" a pipeline.yml file without all the necessary information. We do this to avoid repeating common elements across all repositories/pipelines. All of the templated information (["overlays"](https://carvel.dev/ytt/docs/v0.49.x/ytt-overlays/)) is available in the `overlay` directory
+The [init](#init) and [boot](#boot) tasks use [`ytt`](https://carvel.dev/ytt/) to "compile" a pipeline.yml file without all the necessary information. We do this to avoid repeating common elements across all repositories/pipelines. Templated information (["overlays"](https://carvel.dev/ytt/docs/v0.49.x/ytt-overlays/), ["functions](https://carvel.dev/ytt/docs/v0.49.x/lang-ref-def/), and ["data values"](https://carvel.dev/ytt/docs/v0.49.x/ytt-data-values/)) are available in the `overlay` and `common` directories.

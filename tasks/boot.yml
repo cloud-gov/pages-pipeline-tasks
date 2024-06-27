@@ -1,0 +1,8 @@
+platform: linux
+inputs:
+  - name: pipeline-tasks
+  - name: src
+outputs:
+  - name: compiled
+run:
+  path: pipeline-tasks/scripts/boot.sh
