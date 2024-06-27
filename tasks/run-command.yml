@@ -4,4 +4,5 @@ inputs:
   - name: src
 run:
   dir: src
-  path: pipeline-tasks/scripts/get-app-env.sh
+  path: bash
+  args: [-c, "$COMMAND"]

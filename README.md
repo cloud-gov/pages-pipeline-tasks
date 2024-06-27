@@ -46,6 +46,7 @@ It gets the env vars for a CF application and writes them to a `.env` file for c
 ```yml
 task: get-app-env
 image: general-task
+file: pipeline-tasks/tasks/get-app-env.yml
 params:
   _: #@ template.replace(data.values.env_cf)
   APP_ENV: ((deploy-env))
@@ -66,6 +67,27 @@ params:
     PIPELINE_YML: src/ci/pipeline.yml
 ```
 
+### npm-audit
+
+Runs npm audit and defaults to fail task if there are any `high` findings or above.
+- Optional params: `NPM_AUDIT_LEVEL` defaults to `high`.
+  - Available options: `info`, `low`, `moderate`, `high`, `critical`, `none`
+- Required Image: `node`
+
+```yml
+task: audit-dependencies
+image: node
+file: pipeline-tasks/partials/npm-audit.yml
+
+// OR
+
+task: audit-dependencies
+image: node
+file: pipeline-tasks/partials/npm-audit.yml
+params:
+    NPM_AUDIT_LEVEL: moderate
+```
+
 ### restage
 
 Restage a cf application.
@@ -81,6 +103,27 @@ params:
     CF_ORG: org
     CF_SPACE: space
     CF_APP_NAME: app
+```
+
+### run-command
+
+Runs the provided bash command from the `src` directory
+- Required params: `COMMAND`
+
+```yml
+task: the-script
+image: node
+file: pipeline-tasks/partials/run-command.yml
+params:
+    COMMAND: npm run the-script
+
+// OR
+
+task: cat-file
+image: general-task
+file: pipeline-tasks/partials/run-command.yml
+params:
+    COMMAND: cat some_file.txt
 ```
 
 ### boot
