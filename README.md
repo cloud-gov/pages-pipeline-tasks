@@ -38,7 +38,7 @@ params:
 
 ### get-app-env
 
-It gets the env vars for a CF application and writes them to a `.env` file for consumption in the following task.
+It gets the env vars for a CF application and writes them to a `.env` file for consumption in the following task. This task expects the pipeline's source code to be aliased to `src` and will output the file to the root of the source code located at `$PWD/src/.env`.
 
 - Required params: `APP_ENV`, `CF_APP_NAME`, `$CF_ORG`, `$CF_SPACE`, `$CF_API`, `CF_USERNAME`, `CF_PASSWORD`
 - Required image: `general-task`
