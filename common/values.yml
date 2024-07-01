@@ -4,19 +4,23 @@
 env_cf: ((((deploy-env))-cf-username))
 env_cf_build_tasks: ((build-tasks-((deploy-env))-cf-username))
 env_cf_redirects: ((redirects-cf-username))
+env_cf_email: ((email-cf-username))
 #@ end
 
 #@ def passwords():
 env_cf: ((((deploy-env))-cf-password))
 env_cf_build_tasks: ((build-tasks-((deploy-env))-cf-password))
 env_cf_redirects: ((redirects-cf-password))
+env_cf_email: ((email-cf-password))
 #@ end
 
 #@ def spaces():
 env_cf: ((deploy-env))
 env_cf_build_tasks: build-tasks-((deploy-env))
 env_cf_redirects: redirects
+env_cf_email: email
 #@ end
+
 
 #@data/values
 ---
@@ -45,6 +49,12 @@ env_cf_redirects:
   CF_SPACE: #@ spaces()["env_cf_redirects"]
   CF_USERNAME: #@ usernames()["env_cf_redirects"]
   CF_PASSWORD: #@ passwords()["env_cf_redirects"]
+
+env_cf_email:
+  <<: *base
+  CF_USERNAME: #@ spaces()["env_cf_email"]
+  CF_PASSWORD: #@ usernames()["env_cf_email"]
+  CF_SPACE: #@ passwords()["env_cf_email"]
 
 release_steps:
   - get: general-task
