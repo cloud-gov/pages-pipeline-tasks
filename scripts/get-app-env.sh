@@ -11,4 +11,4 @@ CF_APP_GUID=`cf app $CF_APP_NAME --guid`
 
 cf curl /v3/apps/$CF_APP_GUID/env | \
     jq -r 'to_entries | .[] | .value | to_entries | map({key, value: (.value | tostring) }) | .[] | join("=")' \
-    > $PWD/src/.env
+    > .env

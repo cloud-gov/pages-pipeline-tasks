@@ -1,0 +1,8 @@
+platform: linux
+inputs:
+  - name: pipeline-tasks
+  - name: src
+run:
+  dir: src
+  path: bash
+  args: [-c, "npm audit --audit-level ${NPM_AUDIT_LEVEL:-'high'}"]
