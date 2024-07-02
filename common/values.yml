@@ -52,9 +52,9 @@ env_cf_redirects:
 
 env_cf_email:
   <<: *base
-  CF_USERNAME: #@ spaces()["env_cf_email"]
-  CF_PASSWORD: #@ usernames()["env_cf_email"]
-  CF_SPACE: #@ passwords()["env_cf_email"]
+  CF_SPACE: #@ spaces()["env_cf_email"]
+  CF_USERNAME: #@ usernames()["env_cf_email"]
+  CF_PASSWORD: #@ passwords()["env_cf_email"]
 
 release_steps:
   - get: general-task
