@@ -34,4 +34,5 @@ params:
   status: #@ state
   base_context: concourse
   context: #@ name
+no_get: true
 #@ end
