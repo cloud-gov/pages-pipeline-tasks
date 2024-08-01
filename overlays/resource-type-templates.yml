@@ -8,6 +8,7 @@ time: time-resource
 registry-image: registry-image-resource
 github-release: github-release-resource
 s3-resource: s3-simple-resource
+cron: cron-resource
 #@ end
 
 #@overlay/match by=overlay.all
