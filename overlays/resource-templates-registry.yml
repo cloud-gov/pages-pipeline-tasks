@@ -7,6 +7,7 @@ node: pages-node-v20
 postgres: pages-postgres-v15
 python: pages-python-v3.11
 redis: pages-redis-v7.2
+zap: pages-zap
 general-task: general-task
 oci-build-task: oci-build-task
 #@ end
@@ -14,15 +15,15 @@ oci-build-task: oci-build-task
 #@overlay/match by=overlay.all
 ---
 resources:
-#@ for resource in resources():
-#@overlay/match by="name", missing_ok=True
-#@overlay/replace
-- name: #@ resource
-  type: registry-image
-  source:
-    aws_access_key_id: ((ecr-aws-key))
-    aws_secret_access_key: ((ecr-aws-secret))
-    repository: #@ resources()[resource]
-    aws_region: us-gov-west-1
-    tag: latest
+  #@ for resource in resources():
+  #@overlay/match by="name", missing_ok=True
+  #@overlay/replace
+  - name: #@ resource
+    type: registry-image
+    source:
+      aws_access_key_id: ((ecr-aws-key))
+      aws_secret_access_key: ((ecr-aws-secret))
+      repository: #@ resources()[resource]
+      aws_region: us-gov-west-1
+      tag: latest
 #@ end
