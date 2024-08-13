@@ -1,7 +1,7 @@
 #@ load("@ytt:overlay", "overlay")
 
 #@ def resources():
-dind: pages-dind-v25
+dind: pages-dind
 nginx: pages-nginx-v1
 node: pages-node-v20
 postgres: pages-postgres-v15
