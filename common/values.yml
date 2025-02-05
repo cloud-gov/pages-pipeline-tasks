@@ -21,7 +21,7 @@ env_cf: ((deploy-env))
 env_cf_build_tasks: build-tasks-((deploy-env))
 env_cf_redirects: redirects
 env_cf_email: email
-env_cf_editor: editor
+env_cf_editor: editor-((deploy-env))
 #@ end
 
 
