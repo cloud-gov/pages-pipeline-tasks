@@ -5,7 +5,7 @@ env_cf: ((((deploy-env))-cf-username))
 env_cf_build_tasks: ((build-tasks-((deploy-env))-cf-username))
 env_cf_redirects: ((redirects-cf-username))
 env_cf_email: ((email-cf-username))
-env_cf_editor: ((editor-cf-username))
+env_cf_editor: ((editor-((deploy-env))-cf-username))
 #@ end
 
 #@ def passwords():
@@ -13,7 +13,7 @@ env_cf: ((((deploy-env))-cf-password))
 env_cf_build_tasks: ((build-tasks-((deploy-env))-cf-password))
 env_cf_redirects: ((redirects-cf-password))
 env_cf_email: ((email-cf-password))
-env_cf_editor: ((editor-cf-password))
+env_cf_editor: ((editor-((deploy-env))-cf-password))
 #@ end
 
 #@ def spaces():
