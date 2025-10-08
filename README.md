@@ -194,3 +194,20 @@ These variables are made available as [Data Values](https://carvel.dev/ytt/docs/
 ## ytt templating
 
 The [init](#init) and [boot](#boot) tasks use [`ytt`](https://carvel.dev/ytt/) to "compile" a pipeline.yml file without all the necessary information. We do this to avoid repeating common elements across all repositories/pipelines. Templated information (["overlays"](https://carvel.dev/ytt/docs/v0.49.x/ytt-overlays/), ["functions](https://carvel.dev/ytt/docs/v0.49.x/lang-ref-def/), and ["data values"](https://carvel.dev/ytt/docs/v0.49.x/ytt-data-values/)) are available in the `overlay` and `common` directories.
+
+## Deploying a new pipeline
+
+A pipeline and each of it's instances will only needed to be set once per instance to create the initial pipeline. After the pipelines are set, updates to the default branch will automatically set the pipeline. See the [`set_pipeline` step](https://concourse-ci.org/set-pipeline-step.html) for more information. First, a compiled pipeline file needs to be created with [`ytt`](https://carvel.dev/ytt/):
+
+```sh
+$ ytt -f ci/pipeline.yml -f ../pages-pipeline-tasks/overlays -f ../pages-pipeline-tasks/common --data-value env=$env > pipeline-$env.yml
+```
+Then, the following command will use the fly CLI to set a pipeline instance:
+
+```bash
+$ fly -t <Concourse CI Target Name> set-pipeline -p <pipeline-name> \
+  -c pipeline-<env>.yml \
+  -i deploy-env=<env>
+```
+
+ytt -f ci/pipeline.yml -f ../pages-pipeline-tasks/overlays -f ../pages-pipeline-tasks/common --data-value env=staging > pipeline-staging.yml
