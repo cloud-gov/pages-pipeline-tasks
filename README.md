@@ -195,6 +195,30 @@ These variables are made available as [Data Values](https://carvel.dev/ytt/docs/
 
 The [init](#init) and [boot](#boot) tasks use [`ytt`](https://carvel.dev/ytt/) to "compile" a pipeline.yml file without all the necessary information. We do this to avoid repeating common elements across all repositories/pipelines. Templated information (["overlays"](https://carvel.dev/ytt/docs/v0.49.x/ytt-overlays/), ["functions](https://carvel.dev/ytt/docs/v0.49.x/lang-ref-def/), and ["data values"](https://carvel.dev/ytt/docs/v0.49.x/ytt-data-values/)) are available in the `overlay` and `common` directories.
 
+## Running locally
+
+If you need to fly a pipeline from you local machine to initial setup up a new pipeline or update an existing one that cannot be self set, you can generate the proper fly pipeline by compiling it locally using ytt, the deployments pipeline.yml and the pages pipeline tasks configuration.
+
+Here is an example of compiling and flying a pipeline.
+
+```bash
+## cd into the directory of the pipeline you would like to compile and fly
+
+## Compile the pipeline using ytt, all of the related files with -f, and the ytt
+## Params:
+#### -f ./ci/pipeline.yml: The path to the pipeline file
+#### -f ~/Work/cloud-gov/pages-pipeline-tasks/overlays: Path to ytt overlays
+#### -f ~/Work/cloud-gov/pages-pipeline-tasks/common: Path to ytt common
+#### --data-value env=dev: Set the env data value to dev
+## *Note:
+#### This example assumes the pages-pipeline-tasks repository is in ~/Work/cloud-gov
+#### Update the base path to the directory containing this repo on your local machine
+ytt -f ./ci/pipeline.yml -f ~/Work/cloud-gov/pages-pipeline-tasks/overlays -f ~/Work/cloud-gov/pages-pipeline-tasks/common --data-value env=dev > temp-pipeline.yml
+
+## Set the pipeline for the dev deploy env
+fly -t pages sp -p $PIPELINE_NAME -c temp-pipeline.yml -i deploy-env=dev
+```
+
 ## Deploying a new pipeline
 
 A pipeline and each of it's instances will only needed to be set once per instance to create the initial pipeline. After the pipelines are set, updates to the default branch will automatically set the pipeline. See the [`set_pipeline` step](https://concourse-ci.org/set-pipeline-step.html) for more information. First, a compiled pipeline file needs to be created with [`ytt`](https://carvel.dev/ytt/):

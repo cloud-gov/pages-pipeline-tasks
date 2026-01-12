@@ -3,8 +3,9 @@
 #@ def resources():
 dind: pages-dind
 nginx: pages-nginx-v1
-node: pages-node-v20
+node: pages-node-v22
 node22: pages-node-v22
+node24: pages-node-v24
 postgres: pages-postgres-v15
 python: pages-python-v3.11
 redis: pages-redis-v7.2
