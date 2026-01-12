@@ -197,7 +197,7 @@ The [init](#init) and [boot](#boot) tasks use [`ytt`](https://carvel.dev/ytt/) t
 
 ## Running locally
 
-If you need to fly a pipeline from you local machine to initial setup up a new pipeline or update an existing one that cannot be self set, you can generate the proper fly pipeline by compiling it locally using ytt, the deployments pipeline.yml and the pages pipeline tasks configuration.
+If you need to fly a pipeline from your local machine to set up a new pipeline or update an existing one that cannot be self-set, you can generate the proper fly pipeline by compiling it locally using ytt, the deployments' pipeline.yml and the Pages pipeline tasks configuration.
 
 Here is an example of compiling and flying a pipeline.
 
