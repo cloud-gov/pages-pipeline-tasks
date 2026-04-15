@@ -219,6 +219,13 @@ ytt -f ./ci/pipeline.yml -f ~/Work/cloud-gov/pages-pipeline-tasks/overlays -f ~/
 fly -t pages sp -p $PIPELINE_NAME -c temp-pipeline.yml -i deploy-env=dev
 ```
 
+## Testing bash scripts locally
+
+```bash
+brew install bats-core 
+bats --verbose-run --print-output-on-failure --recursive ../pages-pipeline-tasks/test
+````
+
 ## Deploying a new pipeline
 
 A pipeline and each of it's instances will only needed to be set once per instance to create the initial pipeline. After the pipelines are set, updates to the default branch will automatically set the pipeline. See the [`set_pipeline` step](https://concourse-ci.org/set-pipeline-step.html) for more information. First, a compiled pipeline file needs to be created with [`ytt`](https://carvel.dev/ytt/):
