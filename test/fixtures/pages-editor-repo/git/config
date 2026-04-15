@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/cloud-gov/pages-editor.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	vscode-merge-base = origin/main
+[branch "feat-Create-a-new-content-type-to-populate-the-prefooter-#110"]
+	remote = origin
+	merge = "refs/heads/feat-Create-a-new-content-type-to-populate-the-prefooter-#110"
